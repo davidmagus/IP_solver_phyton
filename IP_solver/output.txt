@@ -1,0 +1,24 @@
+Smart:
+ Elvégzett részfeledatok: 6; Feladat megoldható: False; 
+ Elvégzett részfeledatok: 18; Feladat megoldható: True; [4 3 3 0 0]
+ Elvégzett részfeledatok: 2; Feladat megoldható: False; 
+ Elvégzett részfeledatok: 6; Feladat megoldható: False; 
+ Elvégzett részfeledatok: 6; Feladat megoldható: False; 
+ Elvégzett részfeledatok: 22; Feladat megoldható: True; [1 4 4 2 2]
+ Elvégzett részfeledatok: 6; Feladat megoldható: False; 
+ Elvégzett részfeledatok: 19; Feladat megoldható: True; [4 1 0 4 0]
+ Elvégzett részfeledatok: 20; Feladat megoldható: True; [1 4 4 1 1]
+ Elvégzett részfeledatok: 2; Feladat megoldható: False; 
+Összlépés: 107, Lépés jó megoldásokon: 79, Lépés nem megoldhatókon: 28, Kiértékelések: 6
+Legacy:
+ Elvégzett részfeledatok: 6; Feladat megoldható: False; 
+ Elvégzett részfeledatok: 11; Feladat megoldható: True; [4 3 3 0 0]
+ Elvégzett részfeledatok: 1; Feladat megoldható: False; 
+ Elvégzett részfeledatok: 6; Feladat megoldható: False; 
+ Elvégzett részfeledatok: 6; Feladat megoldható: False; 
+ Elvégzett részfeledatok: 10; Feladat megoldható: True; [1 4 4 2 2]
+ Elvégzett részfeledatok: 6; Feladat megoldható: False; 
+ Elvégzett részfeledatok: 12; Feladat megoldható: True; [4 1 0 4 0]
+ Elvégzett részfeledatok: 11; Feladat megoldható: True; [1 4 4 1 1]
+ Elvégzett részfeledatok: 6; Feladat megoldható: False; 
+Összlépés: 75, Lépés jó megoldásokon: 44, Lépés nem megoldhatókon: 31, Kiértékelések: 17
