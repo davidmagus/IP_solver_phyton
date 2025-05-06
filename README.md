@@ -206,7 +206,7 @@ Itt találhatók a végéeredmény kiírásával foglalkozó függvények a writ
 
 ## Branch_andbound.py
 Ez az eredeti első Solver aminek a működése a téma leadásakor a fejemben volt. Az ötlet arra alapul, hogy nézzük az LP relaxaációkat úgy, hogy sorra egyre több változó értékét egy adott egészre rögzítjük.
-A program a Branch and Bound gondolatmenetet követi. Az alapfeladatot úgy osztjuk részfeladotkra, hogy mindig megkeressük az első változót amit nem rögzítettünk, annak rögzitünk egy még ki nem próbált értéket. ezt folytatjuk amíg minden változót valami értékre rögzítettünk, és megoldást kapunk, vagy mindent kipróbáltunk vagy levágtunk, azaz nem tudjuk tovább csinálni. A megoldás logikáját a köveetkező fával lehet szépen ábrázolni:
+A program a Branch and Bound gondolatmenetet követi. Az alapfeladatot úgy osztjuk részfeladotkra, hogy mindig megkeressük az első változót amit nem rögzítettünk, annak rögzitünk egy még ki nem próbált értéket. ezt folytatjuk amíg minden változót valami értékre rögzítettünk, és megoldást kapunk, vagy mindent kipróbáltunk vagy levágtunk, azaz nem tudjuk tovább csinálni. A megoldás logikáját a következő fával lehet szépen ábrázolni:
 
 ```
 Start
