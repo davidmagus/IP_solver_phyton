@@ -1,7 +1,7 @@
 # IP_solver_phyton
 
 ## Bevezetés:
-Az operácókutatás a jelenlegi kedvenc területem a matematikában, mivel másodéves hallgató vagyok jelenleg csak az Operációkutás 1 tárgyat végeztem le a 2 még folyamatban van. Ez ezen projekt szempontjából azért lényeges mert az első tárgy végén vezetik be az IP feladatok hasznosságát, de konkrét megoldó heurisztikákat csak idén áprilisban keztünk el tanulni. Engem érdekelt, hogy lehet ilyen feladatokat megoldani ezért úgy döntöttem ezek megoldásával szeretnék foglalkozni ezen projektben, votl már eleve egy saját ötletem, és a cél nem a már létező algoritmusok implementálása hanem a saját ötletem kidolgozása volt. Az input.txt-be kell írni a megoldandó feladatot, a main.py futatása után az output.txt-ben jelenik meg a megoldás.
+Az operácókutatás a jelenlegi kedvenc területem a matematikában, mivel másodéves hallgató vagyok jelenleg csak az Operációkutás 1 tárgyat végeztem le a 2 még folyamatban van. Ez ezen projekt szempontjából azért lényeges mert az első tárgy végén vezetik be az IP feladatok hasznosságát, de konkrét megoldó heurisztikákat csak idén áprilisban keztünk el tanulni. Engem érdekelt, hogy lehet ilyen feladatokat megoldani ezért úgy döntöttem ezek megoldásával szeretnék foglalkozni ezen projektben, volt már eleve egy saját ötletem, és a cél nem a már létező algoritmusok implementálása (pl.: Gomory vágások vagy iterált kerekítések, amíket év elején még nem is tanultam) hanem a saját ötletem kidolgozása volt. Az input.txt-be kell írni a megoldandó feladatot, a main.py futatása után az output.txt-ben jelenik meg a megoldás.
 
 ## Működés:
 A könyvtárban a következő fájlok megtalálhatóak:
