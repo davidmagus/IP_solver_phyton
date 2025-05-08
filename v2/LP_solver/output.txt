@@ -1,0 +1,3 @@
+Az optimum: 2
+Optimális Prímál megoldás: [Fraction(1, 1) Fraction(1, 1)]
+Optimális Duál megoldás: [Fraction(1, 3) Fraction(1, 3)]
