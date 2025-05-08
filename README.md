@@ -15,7 +15,7 @@ A könyvtárban a következő fájlok megtalálhatóak:
 - Smartbranches.py
 - input.txt
 
-Ezen kívül vannak egyéb fájlok és mappák is, ezek közül néhányra itt majd kitérek ha említésre méltók, de a a program működésében semmilyen szerepet nem játszanak.
+Ezen kívül vannak egyéb fájlok és mappák is, ezek közül néhányra itt majd kitérek ha említésre méltók, de a a program működésében semmilyen szerepet nem játszanak. A v2 mappa egy újabb verzót tartalmaz ebben kicsit át van írva program helyeken, illetve a lent készült ábrához használt vizualizációs eszközök vannak. Létezik egy LP_solver mappa abban egy LP solver van, ezt tanév során egy másik tárgyból el kellet készíteni, ezért más paraméterekkel működik, mivel sokkal lassabb mint a beépített solverek illetve nem numerikusan működik, ezért nem kompatibilis, végül úgí döntöttem, hogy nem haszánlom és nem érteztem azt, hogy mégegyszer tanulságos lenne számomra ugyanazt leprogramozni, ezért egy előre megírt scipy.optimize modult használok majd. (emellett ez könnyen vezet be korlátokat ami szintén kényelmesebb lesz számomra) a log.txt-ről később írok.
 
 ## Main.py
 
@@ -342,7 +342,7 @@ Itt pl azt az esetet vizsgáljuk ahol az első koordináta 0 a másik 0 és 2 k�
 Ezt a fájlt böngészva arra jutottaam, hogy az ujonan hozzáadott feladatok általában sokkal könnyebbek, és az összes lényeges levágás az alsó szinteken történik.
 ## Hatékonyság
 
-A legkölcségesebb lépés az algoritmus során az LP feladatok megoldása úgyhogy a hatékonyságot az elvégzet ilyen feladatok számlálásával lehet legjobban mérni. A gyakorlati tapasztalatok azt mutatják, hogy a második megkezölítés sokkal kevésbe hatékony.
+A legkölcségesebb lépés az algoritmus során az LP feladatok megoldása úgyhogy a hatékonyságot az elvégzet ilyen feladatok számlálásával lehet legjobban mérni. A gyakorlati tapasztalatok azt mutatják, hogy a második megkezölítés sokkal kevésbe hatékony. a minta minden adatponton 10 feladat közti átlagos lépésszámot ábrázolja. m=5 percentageofwrong = 50-re votl a többi paraméter állítva.
 
 ![Figure_3](https://github.com/user-attachments/assets/9f3dbb41-fc8f-4fe5-b657-fd02e88bbb58)
 
