@@ -1,7 +1,9 @@
 # IP_solver_phyton
 
 ## Bevezetés:
-Az operácókutatás a jelenlegi kedvenc területem a matematikában, mivel másodéves hallgató vagyok jelenleg csak az Operációkutás 1 tárgyat végeztem le a 2 még folyamatban van. Ez ezen projekt szempontjából azért lényeges mert az első tárgy végén vezetik be az IP feladatok hasznosságát, de konkrét megoldó heurisztikákat csak idén áprilisban keztünk el tanulni. Engem érdekelt, hogy lehet ilyen feladatokat megoldani ezért úgy döntöttem ezek megoldásával szeretnék foglalkozni ezen projektben, volt már eleve egy saját ötletem, és a cél nem a már létező algoritmusok implementálása (pl.: Gomory vágások vagy iterált kerekítések, amíket év elején még nem is tanultam) hanem a saját ötletem kidolgozása volt. Az input.txt-be kell írni a megoldandó feladatot, a main.py futatása után az output.txt-ben jelenik meg a megoldás.
+Az operácókutatás a jelenlegi kedvenc területem a matematikában, mivel másodéves hallgató vagyok jelenleg csak az Operációkutás 1 tárgyat végeztem le a 2 még folyamatban van. Ez ezen projekt szempontjából azért lényeges mert az első tárgy végén vezetik be az IP feladatok hasznosságát, de konkrét megoldó heurisztikákat csak idén áprilisban kezdtünk el tanulni. Engem érdekelt, hogy lehet ilyen feladatokat megoldani ezért úgy döntöttem ezek megoldásával szeretnék foglalkozni ezen projektben, volt már eleve egy saját ötletem, és a cél nem a már létező algoritmusok implementálása (pl.: Gomory vágások vagy iterált kerekítések, amíket év elején még nem is tanultam) hanem a saját ötletem kidolgozása volt. Az input.txt-be kell írni a megoldandó feladatot, a main.py futatása után az output.txt-ben jelenik meg a megoldás.
+
+![Matematikai fa diagram](https://github.com/user-attachments/assets/a39f2c7f-c81f-4e3c-ad49-e0c68fc86fa5)
 
 ## Működés:
 A könyvtárban a következő fájlok megtalálhatóak:
