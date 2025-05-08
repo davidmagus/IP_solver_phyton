@@ -1,9 +1,154 @@
 # IP_solver_phyton
+Fejezetek:
+- Bevezetés
+- Algoritmusok
+- Működés
 
 ## Bevezetés:
 Az operácókutatás a jelenlegi kedvenc területem a matematikában, mivel másodéves hallgató vagyok jelenleg csak az Operációkutás 1 tárgyat végeztem le a 2 még folyamatban van. Ez ezen projekt szempontjából azért lényeges mert az első tárgy végén vezetik be az IP feladatok hasznosságát, de konkrét megoldó heurisztikákat csak idén áprilisban kezdtünk el tanulni. Engem érdekelt, hogy lehet ilyen feladatokat megoldani ezért úgy döntöttem ezek megoldásával szeretnék foglalkozni ezen projektben, volt már eleve egy saját ötletem, és a cél nem a már létező algoritmusok implementálása (pl.: Gomory vágások vagy iterált kerekítések, amíket év elején még nem is tanultam) hanem a saját ötletem kidolgozása volt. Az input.txt-be kell írni a megoldandó feladatot, a main.py futatása után az output.txt-ben jelenik meg a megoldás. Az eredeti témaleírás is mellékelve van a könytárban, ha valahol valami nem egyértelmű esetenként az abban leírt jelölések segíthetnek tisztázni dolgokat.
 
 ![Matematikai fa diagram](https://github.com/user-attachments/assets/a39f2c7f-c81f-4e3c-ad49-e0c68fc86fa5)
+# Algoritmusok
+
+## Branch_andbound.py
+Ez az eredeti első Solver aminek a működése a téma leadásakor a fejemben volt. Az ötlet arra alapul, hogy nézzük az LP relaxaációkat úgy, hogy sorra egyre több változó értékét egy adott egészre rögzítjük.
+A program a Branch and Bound gondolatmenetet követi. Az alapfeladatot úgy osztjuk részfeladotkra, hogy mindig megkeressük az első változót amit nem rögzítettünk, annak rögzitünk egy még ki nem próbált értéket. ezt folytatjuk amíg minden változót valami értékre rögzítettünk, és megoldást kapunk, vagy mindent kipróbáltunk vagy levágtunk, azaz nem tudjuk tovább csinálni. A megoldás logikáját a következő fával lehet szépen ábrázolni:
+
+```
+Start
+├── x₁ = 0
+│ ├── x₂ = 0
+│ │ ├── x₃ = 0
+│ │ └── x₃ = 1
+│ └── x₂ = 1
+│ ├── x₃ = 0 
+│ └── x₃ = 1 
+└── x₁ = 1
+├── x₂ = 0
+│ ├── x₃ = 0 
+│ └── x₃ = 1 
+└── x₂ = 1
+├── x₃ = 0 
+└── x₃ = 1 
+```
+
+### Ágak levágása
+Ha az első néhány változót valamilyen értékre rögzítettük, és így már egy olyan részfeladatot kapunk, ami nem megoldható, akkor biztosak lehetünk benne, hogy így nem kezdőthet megoldás, a többi ezt folytató feladatot eldobhatjuk
+
+            if solveable(CurrentA,b,NoSolution, checkeq= checkeq, checkLP= checkLP):
+            ...
+            
+A levágást úgy oldjuk meg hogy csak akkor adjuk hozzá az új feladatot, ha az őse megoldható
+
+###Részfeladatot ellenőrzése
+Nézzük meg egy adott feladatról hogy az LP relaxáltja megoldható-e. Ha nem akkor nyílván egyész megoldás se létezhet. Hasonlóan meg lehet nézni hogy az Ax = b lináris egyenletrendszer megoltható-e
+
+    def solveable(A,b, NoSolution:list,checkeq = True, checkLP = True):
+    NoSolution[2] +=1
+    if checkeq:
+        x, s, q, d = np.linalg.lstsq(A,b)
+        is_exact = np.allclose(A @ x, b)
+        if not is_exact:
+            NoSolution[1] += "\n Ax = b egyenlőség rendszer nemmegoldható"
+            return False
+    
+    if checkLP:
+        bounds = [(0, None)] * len(A[0])  # x >= 0 constraints
+        result = linprog(c=[0] * len(A[0]), A_eq=A, b_eq=b, bounds=bounds, method='highs')
+        if not result.success:
+            NoSolution[1] += "\n LP relaxáció hiba \n"
+            return False
+
+    return True
+
+### Új feladat létrehozása
+Könnyen csinálhatunk új részfeladatokat egy változó rögzitése után. Ha mondjuk x i-edik komponensét c-re rögzítjük, nem kell mást tennünk mint levonni a c i-edik oszloppal vet szorzatát b-ből és utána kitörlni az oszlopot A-ból. Ha az így kapott A'x'=b' feladatot megoldja egy x' akkor az i-edik komponens beszúrásával kapott x megoldja az eredti Ax=b feladatot
+
+                    ...
+                    newA = np.delete(CurrentA,0,axis= 1)
+                    newb = b.copy() - (A[:,i] * z)
+                    newx = x.copy()
+                    newx[i] = z
+                    stuff_to_do.append([newA, newb, newx.copy()])
+
+### Bejárás
+Minden levélben van egy potenciális megoldás, és mivel a célunk egyetlen megengedett megoldás megtalálása a leghatékonyabb bejárás egy mélységi bejárás ami addig futt amíg egy megengedett levélbe nem érünk. Ezt legkönnyebb úgy implementálni, hogy a részfeladatokat egy stackben tároljuk.
+
+                while stuff_to_do and NoSolution[0]:
+                    nextone = stuff_to_do.pop()
+                    __IP_solver__(A,nextone[0],nextone[1],k,nextone[2], b_original, NoSolution, checkeq= checkeq, checkLP= checkLP)
+Amíg nincs minden komponens rögzítve és a részfeladat megoldható mindig rögzítsünk újat, ha már minden komponens adott nézzük meg, hogy megengedett megoldást kaptunk-e:
+
+Nézzük meg minden komponensnek rögizettünk e értéket:
+
+        if -1 in x:
+
+Ha nem nézzük meg, hogy eddig megoldható-e a feladat:
+
+
+            if solveable(CurrentA,b,NoSolution, checkeq= checkeq, checkLP= checkLP):
+            
+Ha igen rögzítsünk egy újat:
+
+            i = 0
+                while x[i] != -1:
+                    i += 1
+
+                for z in range(0,k):
+                    newA = np.delete(CurrentA,0,axis= 1)
+                    newb = b.copy() - (A[:,i] * z)
+                    newx = x.copy()
+                    newx[i] = z
+                    stuff_to_do.append([newA, newb, newx.copy()])
+                ...
+
+Ha már mindent rögzítettünk: Nézzük meg hogy megoldás-e?
+
+        else:
+            NoSolution[3] +=1
+            if np.allclose(A @ x, b_original):
+                NoSolution[0] = False
+                NoSolution[1] = str(x) + "\n Megoldja a rendszert \n"
+            else:
+                NoSolution[1] += " " + str(x) + "\n nem megoldás \n"
+
+
+## Smartbranches
+
+Az elöző algoritmus futási ideje k-ban exponenciálisan nő. Erre a problémára megoldás ötlet lehet ha nem egyesével vizsgáljuk át, a kompononensek lehetséges értékeit, azaz ha k mondjuk 10 nem azt nézzük meg, hogy mi lenni ha xi = 3 hanem sorra megnézzük hogy a feladat megoldható-e xi < 5-re, > 5-re majd a felező kereséshez hasonló gondolatmenettel folytatva ellenőrizzük. a lehhetséges értékeket.
+
+```
+Start (xᵢ ∈ [0..10])  
+├── xᵢ ≤ 5?  
+│   ├── Igen → xᵢ ≤ 2?  
+│   │   ├── Igen → xᵢ ≤ 1?  
+│   │   │   ├── Igen → [részfeladat: xᵢ ∈ {0, 1}]  
+│   │   │   └── Nem  → [részfeladat: xᵢ = 2]  
+│   │   └── Nem  → xᵢ ≤ 4?  
+│   │       ├── Igen → [részfeladat: xᵢ ∈ {3, 4}]  
+│   │       └── Nem  → [részfeladat: xᵢ = 5]  
+│
+└── Nem → xᵢ ≤ 8?  
+    ├── Igen → xᵢ ≤ 6?  
+    │   ├── Igen → [részfeladat: xᵢ = 6]  
+    │   └── Nem  → [részfeladat: xᵢ ∈ {7, 8}]  
+    └── Nem  → xᵢ ≤ 9?  
+        ├── Igen → [részfeladat: xᵢ = 9]  
+        └── Nem  → [részfeladat: xᵢ = 10]
+```
+
+
+Az új algorimtus Smartbranches.py algoritmus ezen módszer mentén működik. ehez az aktuális megoldás helyett egy aktuális megoldó intervallumot kezelünk ez enyhébb módosítássokkal elérhető. Ennek az algoritmusnak a hatékonysága lényegesen alulmúlta az elvárásaim, ezért nem voltam biztos benne, hogy teljesen helyesn működik ezért a log.txt fájlban mindig jegyzi milyen sorrendben megy éppen végig az adott részfeladatokon
+
+        [[0, 0], [0, 2], [0, 9], [0, 9], [0, 9], [0, 9], [0, 9], [0, 9], [0, 9]] Y
+Itt pl azt az esetet vizsgáljuk ahol az első koordináta 0 a másik 0 és 2 közötti, a többire még nincs megkötés (ez egy k = 9 feladat) a Y azt jelenti, hogy a feladat megoldható
+
+Ezt a fájlt böngészva arra jutottaam, hogy az ujonan hozzáadott feladatok általában sokkal könnyebbek, és az összes lényeges levágás az alsó szinteken történik.
+## Hatékonyság
+
+A legkölcségesebb lépés az algoritmus során az LP feladatok megoldása úgyhogy a hatékonyságot az elvégzet ilyen feladatok számlálásával lehet legjobban mérni. A gyakorlati tapasztalatok azt mutatják, hogy a második megkezölítés sokkal kevésbe hatékony. a minta minden adatponton 10 feladat közti átlagos lépésszámot ábrázolja. m=5 percentageofwrong = 50-re volt a többi paraméter állítva.
+
+![Figure_3](https://github.com/user-attachments/assets/9f3dbb41-fc8f-4fe5-b657-fd02e88bbb58)
 
 # Működés:
 A könyvtárban a következő fájlok megtalálhatóak:
@@ -205,147 +350,6 @@ Itt találhatók a végéeredmény kiírásával foglalkozó függvények a writ
 - SmartWriter osztály: 
     A feladatok elvégzése közben az okos modul jegyzi a lépéseit a log.txt fájlba. Ennek az osztálynak az lett volna a célja, hogy e mellé jegyezze az eredeti script lépéseit egy második hasábba, de ennek a megalkotása nehezebb volt mint hasznos így felhagytam vele. Ennek befejezése lehet megérné a fáradságot.
 
-# Algoritmusok
-
-## Branch_andbound.py
-Ez az eredeti első Solver aminek a működése a téma leadásakor a fejemben volt. Az ötlet arra alapul, hogy nézzük az LP relaxaációkat úgy, hogy sorra egyre több változó értékét egy adott egészre rögzítjük.
-A program a Branch and Bound gondolatmenetet követi. Az alapfeladatot úgy osztjuk részfeladotkra, hogy mindig megkeressük az első változót amit nem rögzítettünk, annak rögzitünk egy még ki nem próbált értéket. ezt folytatjuk amíg minden változót valami értékre rögzítettünk, és megoldást kapunk, vagy mindent kipróbáltunk vagy levágtunk, azaz nem tudjuk tovább csinálni. A megoldás logikáját a következő fával lehet szépen ábrázolni:
-
-```
-Start
-├── x₁ = 0
-│ ├── x₂ = 0
-│ │ ├── x₃ = 0
-│ │ └── x₃ = 1
-│ └── x₂ = 1
-│ ├── x₃ = 0 
-│ └── x₃ = 1 
-└── x₁ = 1
-├── x₂ = 0
-│ ├── x₃ = 0 
-│ └── x₃ = 1 
-└── x₂ = 1
-├── x₃ = 0 
-└── x₃ = 1 
-```
-
-### Ágak levágása
-Ha az első néhány változót valamilyen értékre rögzítettük, és így már egy olyan részfeladatot kapunk, ami nem megoldható, akkor biztosak lehetünk benne, hogy így nem kezdőthet megoldás, a többi ezt folytató feladatot eldobhatjuk
-
-            if solveable(CurrentA,b,NoSolution, checkeq= checkeq, checkLP= checkLP):
-            ...
-            
-A levágást úgy oldjuk meg hogy csak akkor adjuk hozzá az új feladatot, ha az őse megoldható
-
-###Részfeladatot ellenőrzése
-Nézzük meg egy adott feladatról hogy az LP relaxáltja megoldható-e. Ha nem akkor nyílván egyész megoldás se létezhet. Hasonlóan meg lehet nézni hogy az Ax = b lináris egyenletrendszer megoltható-e
-
-    def solveable(A,b, NoSolution:list,checkeq = True, checkLP = True):
-    NoSolution[2] +=1
-    if checkeq:
-        x, s, q, d = np.linalg.lstsq(A,b)
-        is_exact = np.allclose(A @ x, b)
-        if not is_exact:
-            NoSolution[1] += "\n Ax = b egyenlőség rendszer nemmegoldható"
-            return False
-    
-    if checkLP:
-        bounds = [(0, None)] * len(A[0])  # x >= 0 constraints
-        result = linprog(c=[0] * len(A[0]), A_eq=A, b_eq=b, bounds=bounds, method='highs')
-        if not result.success:
-            NoSolution[1] += "\n LP relaxáció hiba \n"
-            return False
-
-    return True
-
-### Új feladat létrehozása
-Könnyen csinálhatunk új részfeladatokat egy változó rögzitése után. Ha mondjuk x i-edik komponensét c-re rögzítjük, nem kell mást tennünk mint levonni a c i-edik oszloppal vet szorzatát b-ből és utána kitörlni az oszlopot A-ból. Ha az így kapott A'x'=b' feladatot megoldja egy x' akkor az i-edik komponens beszúrásával kapott x megoldja az eredti Ax=b feladatot
-
-                    ...
-                    newA = np.delete(CurrentA,0,axis= 1)
-                    newb = b.copy() - (A[:,i] * z)
-                    newx = x.copy()
-                    newx[i] = z
-                    stuff_to_do.append([newA, newb, newx.copy()])
-
-### Bejárás
-Minden levélben van egy potenciális megoldás, és mivel a célunk egyetlen megengedett megoldás megtalálása a leghatékonyabb bejárás egy mélységi bejárás ami addig futt amíg egy megengedett levélbe nem érünk. Ezt legkönnyebb úgy implementálni, hogy a részfeladatokat egy stackben tároljuk.
-
-                while stuff_to_do and NoSolution[0]:
-                    nextone = stuff_to_do.pop()
-                    __IP_solver__(A,nextone[0],nextone[1],k,nextone[2], b_original, NoSolution, checkeq= checkeq, checkLP= checkLP)
-Amíg nincs minden komponens rögzítve és a részfeladat megoldható mindig rögzítsünk újat, ha már minden komponens adott nézzük meg, hogy megengedett megoldást kaptunk-e:
-
-Nézzük meg minden komponensnek rögizettünk e értéket:
-
-        if -1 in x:
-
-Ha nem nézzük meg, hogy eddig megoldható-e a feladat:
-
-
-            if solveable(CurrentA,b,NoSolution, checkeq= checkeq, checkLP= checkLP):
-            
-Ha igen rögzítsünk egy újat:
-
-            i = 0
-                while x[i] != -1:
-                    i += 1
-
-                for z in range(0,k):
-                    newA = np.delete(CurrentA,0,axis= 1)
-                    newb = b.copy() - (A[:,i] * z)
-                    newx = x.copy()
-                    newx[i] = z
-                    stuff_to_do.append([newA, newb, newx.copy()])
-                ...
-
-Ha már mindent rögzítettünk: Nézzük meg hogy megoldás-e?
-
-        else:
-            NoSolution[3] +=1
-            if np.allclose(A @ x, b_original):
-                NoSolution[0] = False
-                NoSolution[1] = str(x) + "\n Megoldja a rendszert \n"
-            else:
-                NoSolution[1] += " " + str(x) + "\n nem megoldás \n"
-
-
-## Smartbranches
-
-Az elöző algoritmus futási ideje k-ban exponenciálisan nő. Erre a problémára megoldás ötlet lehet ha nem egyesével vizsgáljuk át, a kompononensek lehetséges értékeit, azaz ha k mondjuk 10 nem azt nézzük meg, hogy mi lenni ha xi = 3 hanem sorra megnézzük hogy a feladat megoldható-e xi < 5-re, > 5-re majd a felező kereséshez hasonló gondolatmenettel folytatva ellenőrizzük. a lehhetséges értékeket.
-
-```
-Start (xᵢ ∈ [0..10])  
-├── xᵢ ≤ 5?  
-│   ├── Igen → xᵢ ≤ 2?  
-│   │   ├── Igen → xᵢ ≤ 1?  
-│   │   │   ├── Igen → [részfeladat: xᵢ ∈ {0, 1}]  
-│   │   │   └── Nem  → [részfeladat: xᵢ = 2]  
-│   │   └── Nem  → xᵢ ≤ 4?  
-│   │       ├── Igen → [részfeladat: xᵢ ∈ {3, 4}]  
-│   │       └── Nem  → [részfeladat: xᵢ = 5]  
-│
-└── Nem → xᵢ ≤ 8?  
-    ├── Igen → xᵢ ≤ 6?  
-    │   ├── Igen → [részfeladat: xᵢ = 6]  
-    │   └── Nem  → [részfeladat: xᵢ ∈ {7, 8}]  
-    └── Nem  → xᵢ ≤ 9?  
-        ├── Igen → [részfeladat: xᵢ = 9]  
-        └── Nem  → [részfeladat: xᵢ = 10]
-```
-
-
-Az új algorimtus Smartbranches.py algoritmus ezen módszer mentén működik. ehez az aktuális megoldás helyett egy aktuális megoldó intervallumot kezelünk ez enyhébb módosítássokkal elérhető. Ennek az algoritmusnak a hatékonysága lényegesen alulmúlta az elvárásaim, ezért nem voltam biztos benne, hogy teljesen helyesn működik ezért a log.txt fájlban mindig jegyzi milyen sorrendben megy éppen végig az adott részfeladatokon
-
-        [[0, 0], [0, 2], [0, 9], [0, 9], [0, 9], [0, 9], [0, 9], [0, 9], [0, 9]] Y
-Itt pl azt az esetet vizsgáljuk ahol az első koordináta 0 a másik 0 és 2 közötti, a többire még nincs megkötés (ez egy k = 9 feladat) a Y azt jelenti, hogy a feladat megoldható
-
-Ezt a fájlt böngészva arra jutottaam, hogy az ujonan hozzáadott feladatok általában sokkal könnyebbek, és az összes lényeges levágás az alsó szinteken történik.
-## Hatékonyság
-
-A legkölcségesebb lépés az algoritmus során az LP feladatok megoldása úgyhogy a hatékonyságot az elvégzet ilyen feladatok számlálásával lehet legjobban mérni. A gyakorlati tapasztalatok azt mutatják, hogy a második megkezölítés sokkal kevésbe hatékony. a minta minden adatponton 10 feladat közti átlagos lépésszámot ábrázolja. m=5 percentageofwrong = 50-re volt a többi paraméter állítva.
-
-![Figure_3](https://github.com/user-attachments/assets/9f3dbb41-fc8f-4fe5-b657-fd02e88bbb58)
 
 
 
