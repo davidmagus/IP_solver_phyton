@@ -311,6 +311,36 @@ Ha már mindent rögzítettünk: Nézzük meg hogy megoldás-e?
 
 ## Smartbranches
 
+Az elöző algoritmus futási ideje k-ban exponenciálisan nő. Erre a problémára megoldás ötlet lehet ha nem egyesével vizsgáljuk át, a kompononensek lehetséges értékeit, azaz ha k mondjuk 10 nem azt nézzük meg, hogy mi lenni ha xi = 3 hanem sorra megnézzük hogy a feladat megoldható-e xi < 5-re, > 5-re majd a felező kereséshez hasonló gondolatmenettel folytatva ellenőrizzük. a lehhetséges értékeket.
+
+```
+Start (xᵢ ∈ [0..10])  
+├── xᵢ ≤ 5?  
+│   ├── Igen → xᵢ ≤ 2?  
+│   │   ├── Igen → xᵢ ≤ 1?  
+│   │   │   ├── Igen → [részfeladat: xᵢ ∈ {0, 1}]  
+│   │   │   └── Nem  → [részfeladat: xᵢ = 2]  
+│   │   └── Nem  → xᵢ ≤ 4?  
+│   │       ├── Igen → [részfeladat: xᵢ ∈ {3, 4}]  
+│   │       └── Nem  → [részfeladat: xᵢ = 5]  
+│
+└── Nem → xᵢ ≤ 8?  
+    ├── Igen → xᵢ ≤ 6?  
+    │   ├── Igen → [részfeladat: xᵢ = 6]  
+    │   └── Nem  → [részfeladat: xᵢ ∈ {7, 8}]  
+    └── Nem  → xᵢ ≤ 9?  
+        ├── Igen → [részfeladat: xᵢ = 9]  
+        └── Nem  → [részfeladat: xᵢ = 10]
+```
+
+
+Az új algorimtus Smartbranches.py algoritmus ezen módszer mentén működik. ehez az aktuális megoldás helyett egy aktuális megoldó intervallumot kezelünk ez enyhébb módosítássokkal elérhető.
+
+## Hatékonyság
+
+A legkölcségesebb lépés az algoritmus során az LP feladatok megoldása úgyhogy a hatékonyságot az elvégzet ilyen feladatok számlálásával lehet legjobban mérni. 
+
+![Figure_3](https://github.com/user-attachments/assets/9f3dbb41-fc8f-4fe5-b657-fd02e88bbb58)
 
 
 
