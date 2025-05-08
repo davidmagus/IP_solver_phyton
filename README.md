@@ -334,11 +334,15 @@ Start (xᵢ ∈ [0..10])
 ```
 
 
-Az új algorimtus Smartbranches.py algoritmus ezen módszer mentén működik. ehez az aktuális megoldás helyett egy aktuális megoldó intervallumot kezelünk ez enyhébb módosítássokkal elérhető.
+Az új algorimtus Smartbranches.py algoritmus ezen módszer mentén működik. ehez az aktuális megoldás helyett egy aktuális megoldó intervallumot kezelünk ez enyhébb módosítássokkal elérhető. Ennek az algoritmusnak a hatékonysága lényegesen alulmúlta az elvárásaim, ezért nem voltam biztos benne, hogy teljesen helyesn működik ezért a log.txt fájlban mindig jegyzi milyen sorrendben megy éppen végig az adott részfeladatokon
 
+        [[0, 0], [0, 2], [0, 9], [0, 9], [0, 9], [0, 9], [0, 9], [0, 9], [0, 9]] Y
+Itt pl azt az esetet vizsgáljuk ahol az első koordináta 0 a másik 0 és 2 közötti, a többire még nincs megkötés (ez egy k = 9 feladat) a Y azt jelenti, hogy a feladat megoldható
+
+Ezt a fájlt böngészva arra jutottaam, hogy az ujonan hozzáadott feladatok általában sokkal könnyebbek, és az összes lényeges levágás az alsó szinteken történik.
 ## Hatékonyság
 
-A legkölcségesebb lépés az algoritmus során az LP feladatok megoldása úgyhogy a hatékonyságot az elvégzet ilyen feladatok számlálásával lehet legjobban mérni. 
+A legkölcségesebb lépés az algoritmus során az LP feladatok megoldása úgyhogy a hatékonyságot az elvégzet ilyen feladatok számlálásával lehet legjobban mérni. A gyakorlati tapasztalatok azt mutatják, hogy a második megkezölítés sokkal kevésbe hatékony.
 
 ![Figure_3](https://github.com/user-attachments/assets/9f3dbb41-fc8f-4fe5-b657-fd02e88bbb58)
 
