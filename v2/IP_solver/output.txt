@@ -1,0 +1,6 @@
+Smart:
+ Elvégzett részfeledatok: 51028; Feladat megoldható: False; 
+Összlépés: 51028, Lépés jó megoldásokon: 0, Lépés nem megoldhatókon: 51028, Kiértékelések: 0
+Legacy:
+ Elvégzett részfeledatok: 8848; Feladat megoldható: False; 
+Összlépés: 8848, Lépés jó megoldásokon: 0, Lépés nem megoldhatókon: 8848, Kiértékelések: 0
