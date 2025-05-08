@@ -343,7 +343,7 @@ Itt pl azt az esetet vizsgáljuk ahol az első koordináta 0 a másik 0 és 2 k�
 Ezt a fájlt böngészva arra jutottaam, hogy az ujonan hozzáadott feladatok általában sokkal könnyebbek, és az összes lényeges levágás az alsó szinteken történik.
 ## Hatékonyság
 
-A legkölcségesebb lépés az algoritmus során az LP feladatok megoldása úgyhogy a hatékonyságot az elvégzet ilyen feladatok számlálásával lehet legjobban mérni. A gyakorlati tapasztalatok azt mutatják, hogy a második megkezölítés sokkal kevésbe hatékony. a minta minden adatponton 10 feladat közti átlagos lépésszámot ábrázolja. m=5 percentageofwrong = 50-re votl a többi paraméter állítva.
+A legkölcségesebb lépés az algoritmus során az LP feladatok megoldása úgyhogy a hatékonyságot az elvégzet ilyen feladatok számlálásával lehet legjobban mérni. A gyakorlati tapasztalatok azt mutatják, hogy a második megkezölítés sokkal kevésbe hatékony. a minta minden adatponton 10 feladat közti átlagos lépésszámot ábrázolja. m=5 percentageofwrong = 50-re volt a többi paraméter állítva.
 
 ![Figure_3](https://github.com/user-attachments/assets/9f3dbb41-fc8f-4fe5-b657-fd02e88bbb58)
 
