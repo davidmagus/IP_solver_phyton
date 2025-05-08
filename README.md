@@ -1,8 +1,8 @@
 # IP_solver_phyton
 Fejezetek:
-- Bevezetés
-- Algoritmusok
-- Működés
+- Bevezetés (https://github.com/davidmagus/IP_solver_phyton/blob/main/README.md#bevezetés)
+- Algoritmusok (https://github.com/davidmagus/IP_solver_phyton/blob/main/README.md#algoritmusok)
+- Működés (https://github.com/davidmagus/IP_solver_phyton/blob/main/README.md#működés)
 
 ## Bevezetés:
 Az operácókutatás a jelenlegi kedvenc területem a matematikában, mivel másodéves hallgató vagyok jelenleg csak az Operációkutás 1 tárgyat végeztem le a 2 még folyamatban van. Ez ezen projekt szempontjából azért lényeges mert az első tárgy végén vezetik be az IP feladatok hasznosságát, de konkrét megoldó heurisztikákat csak idén áprilisban kezdtünk el tanulni. Engem érdekelt, hogy lehet ilyen feladatokat megoldani ezért úgy döntöttem ezek megoldásával szeretnék foglalkozni ezen projektben, volt már eleve egy saját ötletem, és a cél nem a már létező algoritmusok implementálása (pl.: Gomory vágások vagy iterált kerekítések, amíket év elején még nem is tanultam) hanem a saját ötletem kidolgozása volt. Az input.txt-be kell írni a megoldandó feladatot, a main.py futatása után az output.txt-ben jelenik meg a megoldás. Az eredeti témaleírás is mellékelve van a könytárban, ha valahol valami nem egyértelmű esetenként az abban leírt jelölések segíthetnek tisztázni dolgokat.
